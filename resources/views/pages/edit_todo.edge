@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo - Edit "{{ todo.name }}"</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f8f9fa;
+        }
+        .form-container {
+            width: 100%;
+            max-width: 600px;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <form action="{{ route('todo.update', [todo.id]) }}" method="POST">
+            {{ csrfField() }}
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input class="form-control" name="name" id="name" value="{{ todo.name }}" type="text">
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <input class="form-control" name="description" value="{{ todo.description }}" id="description" type="text">
+            </div>
+            <div class="form-check mb-3">
+                <input class="form-check-input" {{ todo.status === 1 ? 'checked' : '' }} type="checkbox" name="status" id="status">
+                <label for="status" class="form-check-label">Status</label>
+            </div>
+            <button class="btn btn-success w-100">Submit</button>
+        </form>
+    </div>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

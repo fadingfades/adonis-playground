@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo - Home</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container p-3">
+        <div class="d-flex justify-content-end py-2">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTodoModal">Add</button>
+        </div>
+        <table class="table table-bordered table-striped text-center">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @each(todo in todos)
+                <tr>
+                    <td>{{ todo.id }}</td>
+                    <td>{{ todo.name }}</td>
+                    <td>{{ todo.description }}</td>
+                    <td>
+                        <input class="form-check-input" type="checkbox" disabled {{ todo.status === 1 ? 'checked' : '' }}>
+                    </td>
+                    <td>
+                        <div class="d-flex gap-2 justify-content-center">
+                            <a class="btn btn-warning" href="{{ route('todo.edit', [todo.id]) }}">Edit</a>
+                            <form action="{{ route('todo.delete', [todo.id]) }}" method="post">
+                                {{ csrfField() }}
+                                <button class="btn btn-danger" type="submit">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                @end
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal fade" id="addTodoModal" tabindex="-1" aria-labelledby="addTodoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="addTodoModalLabel">Add Todo</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('todo.store') }}" method="POST" id="addTodo">
+                        {{ csrfField() }}
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" name="name" id="name" class="form-control" placeholder="Sleep at 9pm">
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <input type="text" name="description" id="description" class="form-control" placeholder="You need to sleep properly">
+                        </div>
+                        <div class="form-check mb-3">
+                            <input type="checkbox" class="form-check-input" name="status" id="status">
+                            <label for="status" class="form-check-label">Status</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" form="addTodo" class="btn btn-success">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
